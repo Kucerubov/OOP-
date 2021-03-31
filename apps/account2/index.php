@@ -1,10 +1,4 @@
 <?php
-/**
- * Core bootloader
- *
- * @author Serhii Shkrabak
- */
-
 /* RESULT STORAGE */
 $RESULT = [
 	'state' => 0,
@@ -33,9 +27,6 @@ function load (String $class):void {
 		include $file;
 	}
 
-/*
- * Error logger
- */
 function handler (Throwable $e):void {
 	$file = ROOT.'codes/codes.php';
 	if (file_exists($file)) {
