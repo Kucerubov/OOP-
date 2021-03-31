@@ -1,11 +1,4 @@
 <?php
-/**
- * User Controller
- *
- * @author Serhii Shkrabak
- * @global object $CORE->model
- * @package Model\Main
- */
 namespace Model;
 class Main
 {
