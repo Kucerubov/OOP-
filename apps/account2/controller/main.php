@@ -1,11 +1,4 @@
 <?php
-/**
- * User Controller
- *
- * @author Serhii Shkrabak
- * @global object $CORE
- * @package Controller\Main
- */
 namespace Controller;
 class Main
 {
@@ -16,9 +9,6 @@ class Main
 	public function exec():?array {
 		$result = null;
 		$url = $this->getVar('REQUEST_URI', 'e');
-
-		//path получает массив из пути url и разделяет в массив
-		//od.ua/form/submitAmbassador => path ['form', 'submitAmbassador]
 		$path = explode('/', $url);
 
 		if (isset($path[2]) && !strpos($path[1], '.')) { // Disallow directory changing
@@ -30,17 +20,15 @@ class Main
 			else {
 				throw new \Exception("REQUEST_UNKNOWN");
 			}
-
-			//NEW
-			//подключаем паттерны для запроса
-			$file = ROOT . 'model/config/patterns/patterns.php';
+			
+			$file = ROOT . 'model/config/patterns/patterns.php';//подключаем паттерны для запроса
 			if (file_exists($file)) {
 				include $file;
 			}
 			else {
 				throw new \Exception("REQUEST_UNKNOWN");
 			}
-			//END NEW
+
 
 			if (isset($methods[$path[2]])) {
 				$details = $methods[$path[2]];
@@ -49,9 +37,7 @@ class Main
 				foreach ($details['params'] as $param) {
 					$var = $this->getVar($param['name'], $param['source']);
 					
-					//NEW
-					//проверка присутствия запроса
-					if ($param['required'] === true) {
+					if ($param['required'] === true) { //проверка присутствия запроса
 
 						//проверка обязательного поля
 						if (isset($var)) {
@@ -61,7 +47,7 @@ class Main
 								throw new \Exception("REQUEST_INCORRECT, {$param['name']}");
 							}
 
-							//махинации с номером телефона: приводим к одинаковому виду (+380*)
+							//приводим к виду (+380)
 							if ($param['name'] == 'phone') {
 								$var = '+380'.substr($var, strlen($var) - 9);
 							}
@@ -71,7 +57,6 @@ class Main
 						}
 
 					}
-					//END NEW
 
 					//заполняем массив запроса
 					if ($var) {
@@ -79,7 +64,7 @@ class Main
 					}
 				}
 
-				//formsubmitAmbassador - новая заявка
+				//form submitAmbassador - новая заявка
 				if (method_exists($this->model, $path[1] . $path[2])) {
 					$method = [$this->model, $path[1] . $path[2]];
 					$result = $method($request);
