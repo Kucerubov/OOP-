@@ -13,9 +13,9 @@ class Main
 
 	public function formsubmitAmbassador(array $data):?array {
 		// Тут модель повинна бути допрацьована, щоб використовувати бази даних, тощо
-		$key = '1664718656:AAHnzgpVdxb7a31pUWQOQO2PfmOmcJ3lrvU'; // Ключ API телеграм
+		$key = ''; // Ключ API телеграм
 		$result = null;
-		$chat = 535669782;
+		$chat = ;
 
 		if (!isset($key) || !isset ($chat)) {
 			throw new \Exception("ERROR_EXTERNAL, Bot");
