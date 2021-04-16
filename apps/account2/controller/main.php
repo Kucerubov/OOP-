@@ -29,42 +29,38 @@ class Main
 				throw new \Exception("REQUEST_UNKNOWN");
 			}
 
-
+			
 			if (isset($methods[$path[2]])) {
 				$details = $methods[$path[2]];
 				$request = [];
-
+				
 				foreach ($details['params'] as $param) {
 					$var = $this->getVar($param['name'], $param['source']);
 					
 					if ($param['required'] === true) { //проверка присутствия запроса
-
+						
 						//проверка обязательного поля
 						if (isset($var)) {
-
 							//проверка на соответствие шаблону
-							if (preg_match($patterns["{$param['name']}"], $var) == 0) {
+							if (preg_match($patterns[$param['pattern']]['regular'], $var) == 0) {
 								throw new \Exception("REQUEST_INCORRECT, {$param['name']}");
 							}
-
 							//приводим к виду (+380)
-							if ($param['name'] == 'phone') {
-								$var = '+380'.substr($var, strlen($var) - 9);
-							}
+							if (isset($patterns[$param['pattern']]['function'])) {
+								$var = call_user_func($patterns[$param['pattern']]['function'], $var);						
+							}	
 						}
 						else {
 							throw new \Exception("REQUEST_INCOMPLETE, {$param['name']}");
 						}
 
 					}
-
-					//заполняем массив запроса
 					if ($var) {
 						$request[$param['name']] = $var;
 					}
 				}
 
-				//form submitAmbassador - новая заявка
+				//form submitAmbassador 
 				if (method_exists($this->model, $path[1] . $path[2])) {
 					$method = [$this->model, $path[1] . $path[2]];
 					$result = $method($request);
@@ -84,7 +80,6 @@ class Main
 	}
 
 	public function __construct() {
-		// CORS configuration
 		$origin = $this -> getVar('HTTP_ORIGIN', 'e');
 		$front = $this -> getVar('FRONT', 'e');
 
