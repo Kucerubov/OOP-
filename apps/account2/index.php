@@ -1,5 +1,5 @@
 <?php
-/* RESULT STORAGE */
+
 $RESULT = [
 	'state' => 0,
 	'data' => [],
@@ -44,7 +44,6 @@ function handler (Throwable $e):void {
 		}
 	}
 
-	$RESULT['state'] = $state;
 	$RESULT['data'] = isset($message[1]) ? $message[1] : '';
 	$RESULT[ 'debug' ][] = [
 		'type' => get_class($e),
