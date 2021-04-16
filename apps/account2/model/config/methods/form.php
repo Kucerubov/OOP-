@@ -5,27 +5,27 @@ $methods = [
 			[
 				'name' => 'firstname',
 				'source' => 'p',
-				'pattern' => '',
+				'pattern' => 'name',
 				'required' => true
 			],
 			[
 				'name' => 'secondname',
 				'source' => 'p',
-				'pattern' => '',
+				'pattern' => 'name',
 				'required' => true
 			],
 			[
 				'name' => 'position',
 				'source' => 'p',
 				'pattern' => '',
-				'required' => false
+				'required'  => false 
 			],
 			[
 				'name' => 'phone',
 				'source' => 'p',
-				'pattern' => '',
+				'pattern' => 'phone',
 				'required' => true
 			],
 		]
-	]
+	],
 ];
